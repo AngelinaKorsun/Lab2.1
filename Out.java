@@ -41,10 +41,15 @@ public class Out {
 
         series1.clear();
 
+
+
         int n = 10;
         int omegaMax =  1500;
         int omega = omegaMax / n;
         int N = 256;
+        double[][] tab1 = new double[N][N];
+        double[][] tab2 = new double[N][N];
+        Integer itr = null;
         double[] yArray;
         yArray = new double[N+1];
         double Mean = 0;
@@ -64,9 +69,20 @@ public class Out {
         for (int p = 1; p <= N; p++) {
             double REbuf =0;
             double lmbuf =0;
+            /*
             for (int k = 1; k <= n; k++) {
                 REbuf+=  yArray[k]*Math.cos(2*Math.PI/N*p*k);
                 lmbuf+=  yArray[k]*Math.sin(2*Math.PI/N*p*k);
+            }*/
+            for(int k = 1; k<= N; k++) {
+                if(tab1[p][k] == itr) {
+                    tab1[p][k] = Math.cos(2*Math.PI/N*p*k);
+                }
+                if(tab2[p][k] == itr) {
+                    tab2[p][k] = Math.sin(2*Math.PI/N*p*k);
+                }
+                REbuf+=  yArray[k] * tab1[p][k];
+                lmbuf+=  yArray[k] * tab2[p][k];
             }
             series2.add(p, Math.abs(Math.sqrt(Math.pow(REbuf,2)+(Math.pow(lmbuf,2)))));
         }
